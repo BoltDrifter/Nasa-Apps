@@ -1,4 +1,5 @@
 // Scene setup
+
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
@@ -14,8 +15,8 @@ scene.add(sun);
 
 // Planet Data (name, size, orbit radius, and orbit speed)
 const planets = [
-  { name: 'Mercury', size: 0.5, orbitRadius: 8, orbitSpeed: 0.02 },
-  { name: 'Venus', size: 0.9, orbitRadius: 11, orbitSpeed: 0.015 },
+  { name: 'Mercury', size: 0.5, orbitRadius: 8, orbitSpeed: 0.02,texture: 'textures/mercury.jpg'},
+  { name: 'Venus', size: 0.9, orbitRadius: 11, orbitSpeed: 0.015, texture: '' },
   { name: 'Earth', size: 1, orbitRadius: 15, orbitSpeed: 0.01 },
   { name: 'Mars', size: 0.8, orbitRadius: 19, orbitSpeed: 0.008 },
   { name: 'Jupiter', size: 2, orbitRadius: 25, orbitSpeed: 0.005 },
@@ -37,7 +38,7 @@ function getCSSColor(className) {
 // Create each planet as a mesh and add to the scene
 planets.forEach(planet => {
   planet.geometry = new THREE.SphereGeometry(planet.size, 32, 32);
-  planet.material = new THREE.MeshBasicMaterial({ color: getCSSColor(`planet-${planet.name.toLowerCase()}`) });
+  planet.material = new THREE.MeshBasicMaterial({ texture: `./textures/${planet.name.toLowerCase()}$.jpg`});
   planet.mesh = new THREE.Mesh(planet.geometry, planet.material);
   scene.add(planet.mesh);
 

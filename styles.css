@@ -240,89 +240,7 @@ form button:hover {
     transform: rotate(360deg);
   }
 }
-.planet-earth {
-  width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    background-image: url('/textures/2k_earth_daymap.jpg'); /* Path to your texture */
-    background-size: cover; /* Scale the image to cover the entire element */
-    background-position: center; /* Center the image */
-    position: relative;
-    box-shadow: 0 0 20px rgba(30, 144, 255, 0.7);
-    animation: rotate 10s linear infinite;
-}
-.moon {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  background-color: #1E90FF; /* Earth color */
-  position: relative;
-  box-shadow: 0 0 20px rgba(30, 144, 255, 0.7);
-  animation: rotate 100s linear infinite;
-}
-.mercury {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  background-color: #1E90FF; /* Earth color */
-  position: relative;
-  box-shadow: 0 0 20px rgba(30, 144, 255, 0.7);
-  animation: rotate 100s linear infinite;
-}
-.venus {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  background-color: #1E90FF; /* Earth color */
-  position: relative;
-  box-shadow: 0 0 20px rgba(30, 144, 255, 0.7);
-  animation: rotate 100s linear infinite;
-}
-.mars {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  background-color: #1E90FF; /* Earth color */
-  position: relative;
-  box-shadow: 0 0 20px rgba(30, 144, 255, 0.7);
-  animation: rotate 100s linear infinite;
-} 
-.jupiter {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  background-color: #1E90FF; /* Earth color */
-  position: relative;
-  box-shadow: 0 0 20px rgba(30, 144, 255, 0.7);
-  animation: rotate 100s linear infinite;
-}
-.saturn {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  background-color: #1E90FF; /* Earth color */
-  position: relative;
-  box-shadow: 0 0 20px rgba(30, 144, 255, 0.7);
-  animation: rotate 100s linear infinite;
-}
-.neptune {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  background-color: #1E90FF; /* Earth color */
-  position: relative;
-  box-shadow: 0 0 20px rgba(30, 144, 255, 0.7);
-  animation: rotate 100s linear infinite;
-}
-.uranus {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  background-color: #1E90FF; /* Earth color */
-  position: relative;
-  box-shadow: 0 0 20px rgba(30, 144, 255, 0.7);
-  animation: rotate 100s linear infinite;
-}
+
 .button {
     background-color: #057074; /* Green background */
     border: none; /* Remove borders */
@@ -357,3 +275,123 @@ form button:hover {
 .planet-saturn { color: #ffcc66; }
 .planet-uranus { color: #66ccff; }
 .planet-neptune { color: #3333ff; }
+
+body {
+    margin: 0;
+    overflow: hidden;
+}
+
+.label {
+    color: white;
+    font-family: sans-serif;
+    font-size: 12px;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 2px 5px;
+    border-radius: 3px;
+}
+
+.info-panel {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    max-width: 300px;
+    overflow-y: auto;
+    max-height: 90vh;
+}
+
+.neo {
+    margin-bottom: 10px;
+}
+body {
+    margin: 0;
+    overflow: hidden;
+}
+
+.label {
+    color: white;
+    font-family: sans-serif;
+    font-size: 12px;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 2px 5px;
+    border-radius: 3px;
+}
+
+.info-panel {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    max-width: 300px;
+    overflow-y: auto;
+    max-height: 90vh;
+}
+
+.neo {
+    margin-bottom: 10px;
+}
+
+body {
+    margin: 0;
+    overflow: hidden;
+}
+
+.label {
+    color: white;
+    font-family: sans-serif;
+    font-size: 12px;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 2px 5px;
+    border-radius: 3px;
+}
+
+.info-panel {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    max-width: 300px;
+    overflow-y: auto;
+    max-height: 90vh;
+}
+
+.neo {
+    margin-bottom: 10px;
+}
+/* Add sticky effect */
+nav {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.7); /* Make it slightly transparent */
+}
+
+nav ul {
+    display: flex;
+    justify-content: space-between;
+}
+
+nav ul li {
+    padding: 10px 20px;
+}
+
+@media (max-width: 768px) {
+  nav ul {
+      flex-direction: column;
+      display: none; /* Hide for mobile, open with JS */
+  }
+
+  nav ul.show {
+      display: flex; /* Toggle with JS */
+  }
+}
