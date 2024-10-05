@@ -12,6 +12,7 @@ header {
     color: white;
 }
 
+
 nav {
     display: flex;
     justify-content: space-between;
@@ -22,10 +23,11 @@ nav {
     width: 100%;
     top: 0;
     z-index: 1000;
-    left: 0;  /* Ensure the nav bar starts from the left edge */
-    right: 0; /* Ensure the nav bar stretches to the right edge */
-    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    left: 0;  
+    right: 0; 
+    box-sizing: border-box; 
 }
+
 nav .logo {
     font-size: 24px;
     font-weight: 700;
@@ -200,6 +202,7 @@ form button:hover {
         font-size: 16px;
     }
 }
+
 .sun {
   position: relative;
   width: 100px;
@@ -241,44 +244,52 @@ form button:hover {
   }
 }
 
+.planet-earth {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-image: url('/textures/2k_earth_daymap.jpg'); /* Path to your texture */
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  box-shadow: 0 0 20px rgba(30, 144, 255, 0.7);
+  animation: rotate 10s linear infinite;
+}
+
+.moon, .planet-mercury, .planet-venus, .planet-mars, .planet-jupiter, .planet-saturn, .planet-neptune, .planet-uranus {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: #1E90FF;
+  position: relative;
+  box-shadow: 0 0 20px rgba(30, 144, 255, 0.7);
+  animation: rotate 100s linear infinite;
+}
+
 .button {
-    background-color: #057074; /* Green background */
-    border: none; /* Remove borders */
-    color: white; /* White text */
-    padding: 15px 32px; /* Some padding */
-    text-align: center; /* Centered text */
-    text-decoration: none; /* Remove underline */
-    display: inline-block; /* Make the container fit the content */
-    font-size: 16px; /* Increase font size */
-    margin: 4px 2px; /* Some margin */
-    cursor: pointer; /* Pointer/hand icon */
-    border-radius: 8px; /* Rounded corners */
-    transition: background-color 0.3s, transform 0.3s;
-    transform: scale(1.25); /* Animation for hover effect */
-  }
-  
-  .button:hover {
-    background-color: #000000; /* Darker green */
-    transform: scale(1.05); /* Slightly increase size */
-  }
-  
-  .button:active {
-    background-color: #3e8e41; /* Even darker green when clicked */
-    transform: scale(1); /* Return to original size */
-  }
-/* styles.css */
-.planet-mercury { color: #aaaaaa; }
-.planet-venus { color: #ff9900; }
+  background-color: #057074;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.3s, transform 0.3s;
+  transform: scale(1.25);
+}
 
-.planet-mars { color: #ff3300; }
-.planet-jupiter { color: #ff6600; }
-.planet-saturn { color: #ffcc66; }
-.planet-uranus { color: #66ccff; }
-.planet-neptune { color: #3333ff; }
+.button:hover {
+  background-color: #000000;
+  transform: scale(1.05);
+}
 
-body {
-    margin: 0;
-    overflow: hidden;
+.button:active {
+  background-color: #3e8e41;
+  transform: scale(1);
 }
 
 .label {
@@ -287,111 +298,26 @@ body {
     font-size: 12px;
     background-color: rgba(0, 0, 0, 0.5);
     padding: 2px 5px;
-    border-radius: 3px;
+    border-radius: 3
 }
-
-.info-panel {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    background-color: rgba(0, 0, 0, 0.7);
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
-    max-width: 300px;
-    overflow-y: auto;
-    max-height: 90vh;
-}
-
-.neo {
-    margin-bottom: 10px;
-}
-body {
-    margin: 0;
-    overflow: hidden;
-}
-
-.label {
-    color: white;
-    font-family: sans-serif;
-    font-size: 12px;
-    background-color: rgba(0, 0, 0, 0.5);
-    padding: 2px 5px;
-    border-radius: 3px;
-}
-
-.info-panel {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    background-color: rgba(0, 0, 0, 0.7);
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
-    max-width: 300px;
-    overflow-y: auto;
-    max-height: 90vh;
-}
-
-.neo {
-    margin-bottom: 10px;
-}
-
-body {
-    margin: 0;
-    overflow: hidden;
-}
-
-.label {
-    color: white;
-    font-family: sans-serif;
-    font-size: 12px;
-    background-color: rgba(0, 0, 0, 0.5);
-    padding: 2px 5px;
-    border-radius: 3px;
-}
-
-.info-panel {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    background-color: rgba(0, 0, 0, 0.7);
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
-    max-width: 300px;
-    overflow-y: auto;
-    max-height: 90vh;
-}
-
-.neo {
-    margin-bottom: 10px;
-}
-/* Add sticky effect */
-nav {
+.sidebar {
     position: fixed;
-    width: 100%;
     top: 0;
+    right: -300px; /* Start hidden */
+    width: 300px;
+    height: 100%;
+    background-color: #fff;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+    transition: right 0.3s ease;
+    padding: 20px;
     z-index: 1000;
-    background: rgba(0, 0, 0, 0.7); /* Make it slightly transparent */
-}
-
-nav ul {
-    display: flex;
-    justify-content: space-between;
-}
-
-nav ul li {
-    padding: 10px 20px;
-}
-
-@media (max-width: 768px) {
-  nav ul {
-      flex-direction: column;
-      display: none; /* Hide for mobile, open with JS */
   }
-
-  nav ul.show {
-      display: flex; /* Toggle with JS */
+  
+  .sidebar.open {
+    right: 0; /* Show when active */
   }
-}
+  
+  #close-sidebar {
+    margin-top: 20px;
+  }
+  
