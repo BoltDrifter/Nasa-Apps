@@ -82,7 +82,7 @@ window.addEventListener('click', (event) => {
   const intersects = raycaster.intersectObjects(planets.map(planet => planet.mesh).filter(mesh => mesh !== undefined));
 
   if (intersects.length > 0) {
-    const intersectedPlanet = intersects[0].object;
+    const intersectedPlanet = intersects.object;
     const planetData = planets.find(planet => planet.mesh === intersectedPlanet);
     alert(`You clicked on ${planetData.name}. Size: ${planetData.size}, Orbit Radius: ${planetData.orbitRadius}`);
   }
@@ -92,6 +92,9 @@ window.addEventListener('click', (event) => {
 function animate() {
   requestAnimationFrame(animate);
 
+  // Rotate the Sun slowly
+  sun.rotation.y += 0.001; // Adjust the speed of rotation as needed
+
   // Update each planet's position
   planets.forEach((planet, i) => {
     angles[i] += planet.orbitSpeed;
@@ -100,6 +103,14 @@ function animate() {
       planet.mesh.position.z = Math.sin(angles[i]) * planet.orbitRadius;
     }
   });
+
+  // Update the Moon's position
+  const earth = planets.find(planet => planet.name === 'Earth');
+  if (earth && earth.mesh) {
+    moonAngle += moonOrbitSpeed;
+    moon.position.x = earth.mesh.position.x + Math.cos(moonAngle) * moonOrbitRadius;
+    moon.position.z = earth.mesh.position.z + Math.sin(moonAngle) * moonOrbitRadius;
+  }
 
   renderer.render(scene, camera);
 }
@@ -151,7 +162,7 @@ function animate() {
 }
 // Create the starfield
 const starGeometry = new THREE.BufferGeometry();
-const starMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 0.1 });
+const starMaterial = new THREE.PointsMaterial({ color: 0xbbb5b2, size: 0.1 });
 
 const starVertices = [];
 for (let i = 0; i < 10000; i++) {
@@ -168,4 +179,3 @@ scene.add(stars);
 
 // Start the animation
 animate();
-
