@@ -179,4 +179,3 @@ scene.add(stars);
 
 // Start the animation
 animate();
-
