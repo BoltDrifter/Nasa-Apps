@@ -162,7 +162,7 @@ function animate() {
 }
 // Create the starfield
 const starGeometry = new THREE.BufferGeometry();
-const starMaterial = new THREE.PointsMaterial({ color: 0xbbb5b2, size: 0.1 });
+const starMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 0.1 });
 
 const starVertices = [];
 for (let i = 0; i < 10000; i++) {
@@ -179,3 +179,4 @@ scene.add(stars);
 
 // Start the animation
 animate();
+
