@@ -217,3 +217,71 @@ searchButton.addEventListener('click', () => {
   }
 });
 
+resetButton.addEventListener('click', () => {
+  console.log("Reset button clicked!");
+
+  // Step 1: Show all planets again and restore their opacity
+  planets.forEach(planet => {
+    if (planet.mesh) {
+      planet.mesh.visible = true;
+      gsap.to(planet.mesh.material, { opacity: 1, duration: 1 });
+      console.log(`Restoring visibility and opacity for ${planet.name}`);
+    }
+  });
+
+  // Step 2: Reset camera position and orientation to its initial state
+  gsap.to(camera.position, {
+    x: 50,
+    y: 50,
+    z: 50,
+    duration: 1,
+    onUpdate: () => {
+      camera.lookAt(scene.position);
+      renderer.render(scene, camera); // Render scene during camera movement
+    },
+    onComplete: () => {
+      camera.lookAt(scene.position); // Ensure camera looks at the scene center after movement
+      renderer.render(scene, camera);
+      console.log("Camera position reset.");
+    }
+  });
+
+  // Step 3: Reset angles for planet orbits
+  angles = planets.map(() => 0); // Reset all angles to 0
+  console.log("Planet orbit angles reset to:", angles);
+
+  // Step 4: Move each planet back to its initial position immediately
+  planets.forEach((planet, i) => {
+    if (planet.mesh) {
+      const initialX = Math.cos(angles[i]) * planet.orbitRadius;
+      const initialZ = Math.sin(angles[i]) * planet.orbitRadius;
+
+      // Set the planet positions directly to their starting points
+      planet.mesh.position.set(initialX, 0, initialZ);
+      console.log(`${planet.name} position reset to: x=${initialX}, z=${initialZ}`);
+    }
+  });
+
+  // Step 5: Reset the Moon's orbit angle and position relative to Earth
+  moonAngle = 0;
+  const earth = planets.find(planet => planet.name === 'Earth');
+  if (earth && earth.mesh) {
+    moon.position.set(
+      earth.mesh.position.x + Math.cos(moonAngle) * moonOrbitRadius,
+      0,
+      earth.mesh.position.z + Math.sin(moonAngle) * moonOrbitRadius
+    );
+    console.log("Moon position reset relative to Earth.");
+  }
+
+  // Step 6: Reset camera lookAt position to the scene center
+  camera.lookAt(scene.position);
+  console.log("Camera lookAt reset to scene center.");
+
+  // Step 7: Unpause the animation to resume planet movement
+  isPaused = false; // Unpause the animation
+  console.log("Animation resumed.");
+
+  // Ensure the `animate` function is being called again
+  animate(); // Manually call animate to resume the animation loop if needed
+});
