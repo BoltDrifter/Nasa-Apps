@@ -8,7 +8,9 @@ document.body.appendChild(renderer.domElement);
 
 // Create the Sun
 const sunGeometry = new THREE.SphereGeometry(5, 32, 32);
-const sunMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+const textureLoader = new THREE.TextureLoader();
+const sunTexture = textureLoader.load('textures/sun.jpg'); 
+const sunMaterial = new THREE.MeshBasicMaterial({ map: sunTexture });
 const sun = new THREE.Mesh(sunGeometry, sunMaterial);
 scene.add(sun);
 
