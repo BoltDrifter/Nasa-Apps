@@ -8,7 +8,9 @@ document.body.appendChild(renderer.domElement);
 
 // Create the Sun
 const sunGeometry = new THREE.SphereGeometry(5, 32, 32);
-const sunMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+const textureLoader = new THREE.TextureLoader();
+const sunTexture = textureLoader.load('textures/sun.jpg'); 
+const sunMaterial = new THREE.MeshBasicMaterial({ map: sunTexture });
 const sun = new THREE.Mesh(sunGeometry, sunMaterial);
 scene.add(sun);
 
@@ -111,3 +113,59 @@ window.addEventListener('resize', () => {
 
 // Start the animation
 animate();
+// Create the Moon
+const moonGeometry = new THREE.SphereGeometry(0.27, 32, 32); // Moon size relative to Earth
+const moonMaterial = new THREE.MeshBasicMaterial({ color: 0xaaaaaa });
+const moon = new THREE.Mesh(moonGeometry, moonMaterial);
+
+// Add the Moon to the scene
+scene.add(moon);
+
+// Moon orbit parameters
+const moonOrbitRadius = 2; // Distance from Earth
+let moonAngle = 0;
+const moonOrbitSpeed = 0.05; // Speed of the Moon's orbit
+
+// Update the animate function to include the Moon's orbit
+function animate() {
+  requestAnimationFrame(animate);
+
+  // Update each planet's position
+  planets.forEach((planet, i) => {
+    angles[i] += planet.orbitSpeed;
+    if (planet.mesh) {
+      planet.mesh.position.x = Math.cos(angles[i]) * planet.orbitRadius;
+      planet.mesh.position.z = Math.sin(angles[i]) * planet.orbitRadius;
+    }
+  });
+
+  // Update the Moon's position
+  const earth = planets.find(planet => planet.name === 'Earth');
+  if (earth && earth.mesh) {
+    moonAngle += moonOrbitSpeed;
+    moon.position.x = earth.mesh.position.x + Math.cos(moonAngle) * moonOrbitRadius;
+    moon.position.z = earth.mesh.position.z + Math.sin(moonAngle) * moonOrbitRadius;
+  }
+
+  renderer.render(scene, camera);
+}
+// Create the starfield
+const starGeometry = new THREE.BufferGeometry();
+const starMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 0.1 });
+
+const starVertices = [];
+for (let i = 0; i < 10000; i++) {
+  const x = THREE.MathUtils.randFloatSpread(2000);
+  const y = THREE.MathUtils.randFloatSpread(2000);
+  const z = THREE.MathUtils.randFloatSpread(2000);
+  starVertices.push(x, y, z);
+}
+
+starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
+
+const stars = new THREE.Points(starGeometry, starMaterial);
+scene.add(stars);
+
+// Start the animation
+animate();
+
