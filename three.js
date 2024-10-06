@@ -16,14 +16,14 @@ scene.add(sun);
 
 // Planet Data
 const planets = [
-  { name: 'Mercury', size: 0.5, orbitRadius: 8, orbitSpeed: 0.02, texture: 'textures/mercury.jpg' },
-  { name: 'Venus', size: 0.9, orbitRadius: 11, orbitSpeed: 0.015, texture: 'textures/venus.jpg' },
-  { name: 'Earth', size: 1, orbitRadius: 15, orbitSpeed: 0.01, texture: 'textures/earth.jpg' },
-  { name: 'Mars', size: 0.8, orbitRadius: 19, orbitSpeed: 0.008, texture: 'textures/mars.jpg' },
-  { name: 'Jupiter', size: 2, orbitRadius: 25, orbitSpeed: 0.005, texture: 'textures/jupiter.jpg' },
-  { name: 'Saturn', size: 1.7, orbitRadius: 30, orbitSpeed: 0.003, texture: 'textures/saturn.jpg' },
-  { name: 'Uranus', size: 1.5, orbitRadius: 35, orbitSpeed: 0.002, texture: 'textures/uranus.jpg' },
-  { name: 'Neptune', size: 1.4, orbitRadius: 40, orbitSpeed: 0.0015, texture: 'textures/neptune.jpg' }
+  { name: 'Mercury', size: 0.5, orbitRadius: 8, orbitSpeed: 0.02, texture: 'textures/mercury.jpg', info: 'Mercury is the smallest planet in our solar system.' },
+  { name: 'Venus', size: 0.9, orbitRadius: 11, orbitSpeed: 0.015, texture: 'textures/venus.jpg', info: 'Venus is the second planet from the Sun and has a thick atmosphere.' },
+  { name: 'Earth', size: 1, orbitRadius: 15, orbitSpeed: 0.01, texture: 'textures/earth.jpg', info: 'Earth is our home planet and the only one known to support life.' },
+  { name: 'Mars', size: 0.8, orbitRadius: 19, orbitSpeed: 0.008, texture: 'textures/mars.jpg', info: 'Mars is known as the Red Planet due to its reddish appearance.' },
+  { name: 'Jupiter', size: 2, orbitRadius: 25, orbitSpeed: 0.005, texture: 'textures/jupiter.jpg', info: 'Jupiter is the largest planet in our solar system.' },
+  { name: 'Saturn', size: 1.7, orbitRadius: 30, orbitSpeed: 0.003, texture: 'textures/saturn.jpg', info: 'Saturn is famous for its beautiful ring system.' },
+  { name: 'Uranus', size: 1.5, orbitRadius: 35, orbitSpeed: 0.002, texture: 'textures/uranus.jpg', info: 'Uranus has a unique sideways rotation.' },
+  { name: 'Neptune', size: 1.4, orbitRadius: 40, orbitSpeed: 0.0015, texture: 'textures/neptune.jpg', info: 'Neptune is known for its deep blue color and strong winds.' }
 ];
 
 // Create each planet
@@ -137,31 +137,37 @@ starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVerti
 const stars = new THREE.Points(starGeometry, starMaterial);
 scene.add(stars);
 
+// Animation control
+let isPaused = false;
+
 // Animate the scene
 function animate() {
-  requestAnimationFrame(animate);
+  if (!isPaused) {
+    requestAnimationFrame(animate);
 
-  // Rotate the Sun slowly
-  sun.rotation.y -= 0.008; // Adjust the speed of rotation as needed
+    // Rotate the Sun slowly
+    sun.rotation.y -= 0.008; // Adjust the speed of rotation as needed
 
-  // Update each planet's position
-  planets.forEach((planet, i) => {
-    angles[i] += planet.orbitSpeed;
-    if (planet.mesh) {
-      planet.mesh.position.x = Math.cos(angles[i]) * planet.orbitRadius;
-      planet.mesh.position.z = Math.sin(angles[i]) * planet.orbitRadius;
+    // Update each planet's position and rotation
+    planets.forEach((planet, i) => {
+      angles[i] += planet.orbitSpeed;
+      if (planet.mesh) {
+        planet.mesh.position.x = Math.cos(angles[i]) * planet.orbitRadius;
+        planet.mesh.position.z = Math.sin(angles[i]) * planet.orbitRadius;
+        planet.mesh.rotation.y += 0.01; // Adjust the speed of rotation as needed
+      }
+    });
+
+    // Update the Moon's position
+    const earth = planets.find(planet => planet.name === 'Earth');
+    if (earth && earth.mesh) {
+      moonAngle += moonOrbitSpeed;
+      moon.position.x = earth.mesh.position.x + Math.cos(moonAngle) * moonOrbitRadius;
+      moon.position.z = earth.mesh.position.z + Math.sin(moonAngle) * moonOrbitRadius;
     }
-  });
 
-  // Update the Moon's position
-  const earth = planets.find(planet => planet.name === 'Earth');
-  if (earth && earth.mesh) {
-    moonAngle += moonOrbitSpeed;
-    moon.position.x = earth.mesh.position.x + Math.cos(moonAngle) * moonOrbitRadius;
-    moon.position.z = earth.mesh.position.z + Math.sin(moonAngle) * moonOrbitRadius;
+    renderer.render(scene, camera);
   }
-
-  renderer.render(scene, camera);
 }
 
 // Responsive design
@@ -173,3 +179,41 @@ window.addEventListener('resize', () => {
 
 // Start the animation
 animate();
+
+// Search bar functionality
+const searchBar = document.getElementById('searchBar');
+const searchButton = document.getElementById('searchButton');
+
+searchButton.addEventListener('click', () => {
+  const query = searchBar.value.toLowerCase();
+  const planet = planets.find(p => p.name.toLowerCase() === query);
+  if (planet && planet.mesh) {
+    // Pause the animation
+    isPaused = true;
+
+    // Hide other planets
+    planets.forEach(p => {
+      if (p.mesh && p.name.toLowerCase() !== query) {
+        gsap.to(p.mesh.material, { opacity: 0, duration: 2, onComplete: () => {
+          p.mesh.visible = false;
+        }});
+      }
+    });
+
+    // Smooth zoom-in to the selected planet
+    gsap.to(camera.position, {
+      x: planet.mesh.position.x + 5,
+      y: planet.mesh.position.y + 5,
+      z: planet.mesh.position.z + 5,
+      duration: 2,
+      onUpdate: () => {
+        camera.lookAt(planet.mesh.position);
+        renderer.render(scene, camera); // Force render
+      },
+      onComplete: () => {
+        camera.lookAt(planet.mesh.position); // Ensure the camera is looking at the planet after the animation
+      }
+    });
+  }
+});
+
