@@ -67,12 +67,6 @@ let angles = planets.map(() => 0);
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
-// Get sidebar elements
-const sidebar = document.getElementById('sidebar');
-const planetNameElement = document.getElementById('planet-name');
-const planetInfoElement = document.getElementById('planet-info');
-const closeSidebarButton = document.getElementById('close-sidebar');
-
 // Add event listener for mouse clicks
 window.addEventListener('click', (event) => {
   // Calculate mouse position in normalized device coordinates
@@ -88,19 +82,8 @@ window.addEventListener('click', (event) => {
   if (intersects.length > 0) {
     const intersectedPlanet = intersects[0].object;
     const planetData = planets.find(planet => planet.mesh === intersectedPlanet);
-
-    // Populate sidebar with planet data
-    planetNameElement.textContent = planetData.name;
-    planetInfoElement.textContent = `This is ${planetData.name}. Size: ${planetData.size}, Orbit Radius: ${planetData.orbitRadius}`;
-    
-    // Show the sidebar
-    sidebar.classList.add('open');
+    alert(`You clicked on ${planetData.name}. Size: ${planetData.size}, Orbit Radius: ${planetData.orbitRadius}`);
   }
-});
-
-// Close sidebar functionality
-closeSidebarButton.addEventListener('click', () => {
-  sidebar.classList.remove('open');
 });
 
 // Animate the scene
